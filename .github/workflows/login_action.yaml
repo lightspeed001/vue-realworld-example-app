@@ -1,23 +1,23 @@
-name: Run Azure Login with OpenID Connect
-on: [push]
+name: WIF App registration with Secret
 
-permissions:
-      id-token: write
-      contents: read
-      
-jobs: 
-  build-and-deploy:
-    runs-on: ubuntu-latest
-    steps:
-    - name: 'Az CLI login'
-      uses: azure/login@v1
-      with:
-          client-id: ${{ secrets.AZURE_CLIENT_ID }}
-          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-  
-    - name: 'Run Azure CLI commands'
-      run: |
-          az account show
-          az group list
-          pwd 
+on:
+  workflow_dispatch
+
+env: 
+  LOCATION: "northeurope"
+  RESOURCE_GROUP_NAME: "WIF-AppReg-Secret"
+  SUBSCRIPTION_ID: "********-****-****-****-************" 
+
+jobs:
+    job01:
+        runs-on: ubuntu-latest
+        steps:
+        - uses: Azure/login@v1
+          with:
+            creds: ${{ secrets.AZURE_CREDENTIALS }}
+            allow-no-subscriptions: true
+        - name: Create resource group
+          uses: azure/CLI@v1
+          with:
+            inlineScript: |
+                az group create --location ${{ env.LOCATION }} --name ${{ env.RESOURCE_GROUP_NAME }} --subscription ${{ env.SUBSCRIPTION_ID }}
