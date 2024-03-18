@@ -1,12 +1,16 @@
-name: WIF App registration with Secret
+name: WIF App registration with federation
+
+permissions:
+  id-token: write # This is required for requesting the JWT
+  contents: read  # This is required for actions/checkout
 
 on:
-  workflow_dispatch
-
+  push:
+    branches:
+    - master
 env: 
-  LOCATION: "northeurope"
-  RESOURCE_GROUP_NAME: "WIF-AppReg-Secret"
-  SUBSCRIPTION_ID: "********-****-****-****-************" 
+  LOCATION: "eastus"
+  RESOURCE_GROUP_NAME: "default2"
 
 jobs:
     job01:
@@ -14,10 +18,13 @@ jobs:
         steps:
         - uses: Azure/login@v1
           with:
-            creds: ${{ secrets.AZURE_CREDENTIALS }}
-            allow-no-subscriptions: true
-        - name: Create resource group
+            client-id: ${{ secrets.AZURE_CLIENT_ID }}
+            tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+            subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+        - name: Creat resource group
           uses: azure/CLI@v1
           with:
             inlineScript: |
-                az group create --location ${{ env.LOCATION }} --name ${{ env.RESOURCE_GROUP_NAME }} --subscription ${{ env.SUBSCRIPTION_ID }}
+                az group create --location ${{ env.LOCATION }} --name ${{ env.RESOURCE_GROUP_NAME }}
+
+
