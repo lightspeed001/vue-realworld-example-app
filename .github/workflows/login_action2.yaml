@@ -1,11 +1,14 @@
 name: Run Azure Login with OIDC
-on:
- workflow_dispatch:
+
 permissions:
   id-token: write
   contents: read
+  
+on:
+ workflow_dispatch:
+
  jobs:
-  build-and-deploy:
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: Az CLI login
