@@ -10,7 +10,7 @@ on:
     - master
 env: 
   LOCATION: "eastus"
-  RESOURCE_GROUP_NAME: "default2"
+  RESOURCE_GROUP_NAME: "default1"
 
 jobs:
     job01:
