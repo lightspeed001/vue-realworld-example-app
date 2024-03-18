@@ -1,7 +1,7 @@
 on:
   workflow_dispatch:
 
-name: AzureLoginSample2
+name: AzureLoginSample2	
 
 jobs:
 
