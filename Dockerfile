@@ -1,11 +1,12 @@
-ARG ALPINE_VERSION=3.16 
+#ARG ALPINE_VERSION=3.9.4 
+# ${ALPINE_VERSION}
 
-FROM node:11-alpine${ALPINE_VERSION} AS builder
+FROM node:11-alpine AS builder
 LABEL  maintainer="<ed@reanimate.io>"
 
 WORKDIR /build-stage
 COPY package*.json ./
-RUN npm ci
+RUN npm i
 
 COPY . ./
 RUN npm i -g yarn && yarn build
